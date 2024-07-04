@@ -7,11 +7,11 @@ public:
     Piece();
     ~Piece();
     
-    void offset() const ;
+    void offset(char) const ;
     void rotate(int) const;
-    std::vector<int> getCases();
+    std::vector<pair<int,int>> getCases();
 
 
     private:
-    std::vector<int> cases;
+    std::vector<pair<int,int>> cases;
 }
