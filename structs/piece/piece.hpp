@@ -14,6 +14,7 @@ public:
   std::vector<std::pair<int, int>> getLowerPoints();
   void setPieceGrid(PieceGrid pieceGrid);
   void setPosition(std::pair<int, int> newPos);
+  std::pair<int, int> getPosition();
 
 private:
   PieceGrid pieceGrid;

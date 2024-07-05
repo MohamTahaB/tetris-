@@ -54,3 +54,5 @@ std::vector<std::pair<int, int>> Piece::getLowerPoints() {
 void Piece::setPieceGrid(PieceGrid pg) { pieceGrid = pg; }
 
 void Piece::setPosition(std::pair<int, int> newPos) { position = newPos; }
+
+std::pair<int, int> Piece::getPosition() { return position; }
