@@ -12,8 +12,10 @@ public:
   void rotate(int);
   std::vector<std::pair<int, int>> getCases();
   std::vector<std::pair<int, int>> getLowerPoints();
+  void setPieceGrid(PieceGrid pieceGrid);
+  void setPosition(std::pair<int, int> newPos);
 
 private:
-  PieceGrid *pieceGrid;
+  PieceGrid pieceGrid;
   std::pair<int, int> position;
 };

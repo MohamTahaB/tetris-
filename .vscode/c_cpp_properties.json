@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/structs/piece"
+                "${workspaceFolder}/structs/piece",
+                "${workspaceFolder}/structs/piece_grid"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

@@ -2,8 +2,7 @@
 #include <map>
 #include <vector>
 
-// TODO
-void Piece::rotate(int rotation) {}
+void Piece::rotate(int rotation) { pieceGrid.rotate(rotation); }
 
 void Piece::offset(char c) {
   // map the chars to offsets
@@ -23,7 +22,7 @@ std::vector<std::pair<int, int>> Piece::getCases() {
   std::vector<std::pair<int, int>> pieces;
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      if (pieceGrid->getGrid()[i + position.first][j + position.second]) {
+      if (pieceGrid.getGrid()[i + position.first][j + position.second]) {
         pieces.push_back({i + position.first, j + position.second});
       }
     }
@@ -38,7 +37,7 @@ std::vector<std::pair<int, int>> Piece::getLowerPoints() {
   for (int j = 2; j >= 0; j--) {
     bool found = false;
     for (int i = 0; i < 3; i++) {
-      if (pieceGrid->getGrid()[i][j]) {
+      if (pieceGrid.getGrid()[i][j]) {
         found = true;
         lowerPointsCoords.push_back({i + position.first, j + position.second});
       }
@@ -51,3 +50,7 @@ std::vector<std::pair<int, int>> Piece::getLowerPoints() {
 
   return lowerPointsCoords;
 }
+
+void Piece::setPieceGrid(PieceGrid pg) { pieceGrid = pg; }
+
+void Piece::setPosition(std::pair<int, int> newPos) { position = newPos; }
