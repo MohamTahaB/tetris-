@@ -103,3 +103,51 @@ TEST(PIECE_TEST, piece_lower_pts_ok) {
     ASSERT_TRUE(it != lowerPoints.end());
   }
 }
+
+TEST(PIECE_TEST, piece_rightmost_pts_ok) {
+  Piece piece;
+  piece.setPosition({1, 1});
+
+  // create grid
+  PieceGrid pg(std::array<std::array<bool, 3>, 3>{
+      std::array<bool, 3>{false, true, true},
+      std::array<bool, 3>{false, true, false},
+      std::array<bool, 3>{false, true, true}});
+
+  piece.setPieceGrid(pg);
+  std::vector<std::pair<int, int>> rightmostPoints = piece.getRightmostPoints();
+
+  // assert the lower points are only  2
+  ASSERT_EQ(rightmostPoints.size(), 2);
+
+  // assert the positions of the rightmostPoints
+  for (std::pair<int, int> pos :
+       std::vector<std::pair<int, int>>{{1, 3}, {3, 3}}) {
+    auto it = std::find(rightmostPoints.begin(), rightmostPoints.end(), pos);
+    ASSERT_TRUE(it != rightmostPoints.end());
+  }
+}
+
+TEST(PIECE_TEST, piece_leftmost_pts_ok) {
+  Piece piece;
+  piece.setPosition({1, 1});
+
+  // create grid
+  PieceGrid pg(std::array<std::array<bool, 3>, 3>{
+      std::array<bool, 3>{true, true, false},
+      std::array<bool, 3>{false, true, false},
+      std::array<bool, 3>{true, true, false}});
+
+  piece.setPieceGrid(pg);
+  std::vector<std::pair<int, int>> leftmostPoints = piece.getLeftmostPoints();
+
+  // assert the lower points are only  2
+  ASSERT_EQ(leftmostPoints.size(), 2);
+
+  // assert the positions of the leftmostPoints
+  for (std::pair<int, int> pos :
+       std::vector<std::pair<int, int>>{{1, 1}, {3, 1}}) {
+    auto it = std::find(leftmostPoints.begin(), leftmostPoints.end(), pos);
+    ASSERT_TRUE(it != leftmostPoints.end());
+  }
+}
