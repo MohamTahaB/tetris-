@@ -61,6 +61,26 @@ std::vector<std::pair<int, int>> Piece::getLowerPoints() {
   return lowerPointsCoords;
 }
 
+std::vector<std::pair<int, int>> Piece::getUpperPoints() {
+  std::vector<std::pair<int, int>> upperPointsCoords;
+
+  for (int i = 0; i < 3; i++) {
+    bool found = false;
+    for (int j = 0; j < 3; j++) {
+      if (pieceGrid.getGrid()[i][j]) {
+        found = true;
+        upperPointsCoords.push_back({i + position.first, j + position.second});
+      }
+    }
+
+    if (found) {
+      break;
+    }
+  }
+
+  return upperPointsCoords;
+}
+
 std::vector<std::pair<int, int>> Piece::getRightmostPoints() {
   std::vector<std::pair<int, int>> rightmostPointsCoords;
 

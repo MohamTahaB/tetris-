@@ -104,6 +104,30 @@ TEST(PIECE_TEST, piece_lower_pts_ok) {
   }
 }
 
+TEST(PIECE_TEST, piece_upper_pts_ok) {
+  Piece piece;
+  piece.setPosition({1, 1});
+
+  // create grid
+  PieceGrid pg(std::array<std::array<bool, 3>, 3>{
+      std::array<bool, 3>{false, true, true},
+      std::array<bool, 3>{false, true, false},
+      std::array<bool, 3>{false, true, true}});
+
+  piece.setPieceGrid(pg);
+  std::vector<std::pair<int, int>> upperPoints = piece.getUpperPoints();
+
+  // assert the upper points are only  2
+  ASSERT_EQ(upperPoints.size(), 2);
+
+  // assert the positions of the upperPoints
+  for (std::pair<int, int> pos :
+       std::vector<std::pair<int, int>>{{1, 2}, {1, 3}}) {
+    auto it = std::find(upperPoints.begin(), upperPoints.end(), pos);
+    ASSERT_TRUE(it != upperPoints.end());
+  }
+}
+
 TEST(PIECE_TEST, piece_rightmost_pts_ok) {
   Piece piece;
   piece.setPosition({1, 1});
