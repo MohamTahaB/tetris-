@@ -17,7 +17,23 @@ void Piece::rotate(int rotation) { pieceGrid.rotate(rotation); }
 void Piece::offset(char c) {
   // map the chars to offsets
   std::map<char, std::pair<int, int>> offsetVals = {
-      {'u', {1, .0}}, {'d', {-1, 0}}, {'l', {0, -1}}, {'r', {0, 1}}};
+      {'d', {1, 0}}, {'l', {0, -1}}, {'r', {0, 1}}};
+
+  // check if the offset won't put the piece out of bound
+  for (std::pair<int, int> coords : getLowerPoints()) {
+    if (coords.first + offsetVals[c].first > 23)
+      return;
+  }
+
+  for (std::pair<int, int> coords : getLeftmostPoints()) {
+    if (coords.second + offsetVals[c].second < 0)
+      return;
+  }
+
+  for (std::pair<int, int> coords : getRightmostPoints()) {
+    if (coords.second + offsetVals[c].second >= 10)
+      return;
+  }
 
   // update the position
   // This op should not be done unless the move is possible,

@@ -9,29 +9,28 @@ TEST(PIECE_TEST, piece_offset_ok) {
   // create grid
   PieceGrid pg(std::array<std::array<bool, 3>, 3>{
       std::array<bool, 3>{false, false, false},
-      std::array<bool, 3>{true, true, true},
+      std::array<bool, 3>{false, true, false},
       std::array<bool, 3>{false, false, false}});
 
   piece.setPieceGrid(pg);
 
-  // up
+  // nothing
   piece.offset('u');
+
+  // check the position
+  ASSERT_EQ(piece.getPosition().first, 0);
+  ASSERT_EQ(piece.getPosition().second, 0);
+
+  // down
+  piece.setPosition({0, 0});
+  piece.offset('d');
 
   // check the position
   ASSERT_EQ(piece.getPosition().first, 1);
   ASSERT_EQ(piece.getPosition().second, 0);
 
-  // down
-  piece.offset('d');
-  piece.offset('d');
-
-  // check the position
-  ASSERT_EQ(piece.getPosition().first, -1);
-  ASSERT_EQ(piece.getPosition().second, 0);
-
-  piece.offset('u');
-
   // right
+  piece.setPosition({0, 0});
   piece.offset('r');
 
   // check the position
@@ -39,21 +38,56 @@ TEST(PIECE_TEST, piece_offset_ok) {
   ASSERT_EQ(piece.getPosition().second, 1);
 
   // left
-  piece.offset('l');
+  piece.setPosition({0, 0});
   piece.offset('l');
 
   // check the position
   ASSERT_EQ(piece.getPosition().first, 0);
   ASSERT_EQ(piece.getPosition().second, -1);
 
-  piece.offset('r');
-
   // random letter
+  piece.setPosition({0, 0});
   piece.offset('z');
 
   // check the position
   ASSERT_EQ(piece.getPosition().first, 0);
   ASSERT_EQ(piece.getPosition().second, 0);
+}
+
+TEST(PIECE_TEST, piece_offset_out_of_bounds_ok) {
+  Piece piece;
+  piece.setPosition({22, 0});
+
+  // create grid
+  PieceGrid pg(std::array<std::array<bool, 3>, 3>{
+      std::array<bool, 3>{false, false, false},
+      std::array<bool, 3>{true, true, true},
+      std::array<bool, 3>{false, false, false}});
+
+  piece.setPieceGrid(pg);
+
+  // down offset should do nothing
+  piece.offset('d');
+
+  // check the position
+  ASSERT_EQ(piece.getPosition().first, 22);
+  ASSERT_EQ(piece.getPosition().second, 0);
+
+  // change the position to {0, 0} and check that left offset does not do shit
+  piece.setPosition({0, 0});
+  piece.offset('l');
+
+  // check the position
+  ASSERT_EQ(piece.getPosition().first, 0);
+  ASSERT_EQ(piece.getPosition().second, 0);
+
+  // change the position to {7, 0} and check that left offset does not do shit
+  piece.setPosition({0, 7});
+  piece.offset('r');
+
+  // check the position
+  ASSERT_EQ(piece.getPosition().first, 0);
+  ASSERT_EQ(piece.getPosition().second, 7);
 }
 
 TEST(PIECE_TEST, piece_cases_ok) {
