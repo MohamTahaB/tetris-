@@ -1,6 +1,16 @@
 #include "piece.hpp"
+#include <array>
 #include <map>
 #include <vector>
+
+Piece::Piece()
+    : position(std::make_pair(0, 0)),
+      pieceGrid(std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{false, false, false},
+          std::array<bool, 3>{false, false, false},
+          std::array<bool, 3>{false, false, false}}) {}
+
+Piece::~Piece() {}
 
 void Piece::rotate(int rotation) { pieceGrid.rotate(rotation); }
 
@@ -22,7 +32,7 @@ std::vector<std::pair<int, int>> Piece::getCases() {
   std::vector<std::pair<int, int>> pieces;
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      if (pieceGrid.getGrid()[i + position.first][j + position.second]) {
+      if (pieceGrid.getGrid()[i][j]) {
         pieces.push_back({i + position.first, j + position.second});
       }
     }
@@ -34,9 +44,9 @@ std::vector<std::pair<int, int>> Piece::getCases() {
 std::vector<std::pair<int, int>> Piece::getLowerPoints() {
   std::vector<std::pair<int, int>> lowerPointsCoords;
 
-  for (int j = 2; j >= 0; j--) {
+  for (int i = 2; i >= 0; i--) {
     bool found = false;
-    for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
       if (pieceGrid.getGrid()[i][j]) {
         found = true;
         lowerPointsCoords.push_back({i + position.first, j + position.second});
