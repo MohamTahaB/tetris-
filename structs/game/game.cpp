@@ -9,10 +9,179 @@ Game::~Game() { piece.~Piece(); }
 void Game::setPiece(PieceGrid pg) {
   piece.setPieceGrid(pg);
 
-  // TODO! add funcs to check the nax up, left, right most points to know how to
+  // TODO! add funcs to check the max up, left, right most points to know how to
   // position the reference, which will be now simply <0,0>
 
   piece.setPosition({0, 0});
 }
 
-bool Game::inspectState() {}
+void Game::resetBoard() {
+  for (int i = 0; i < 24; i++) {
+    for (int j = 0; j < 10; j++) {
+      board[i][j] = false;
+    }
+  }
+}
+
+void Game::clearCompleteLines() {
+  // clear any lines that are complete, and compact the result into the bottom
+  // of the board
+  int offset = 0;
+  for (int i = 23; i >= 0; i--) {
+    bool clearLine = true;
+    for (int j = 0; j < 10; j++) {
+      if (!board[i][j]) {
+        clearLine = false;
+        break;
+      }
+    }
+
+    // check if the line should not be cleared, then offset it
+    if (!clearLine) {
+      for (int j = 0; j < 10; j++) {
+        board[i + offset][j] = board[i][j];
+      }
+    }
+
+    else {
+      for (int j = 0; j < 10; j++) {
+        board[i][j] = false;
+      }
+      offset++;
+    }
+  }
+}
+
+bool Game::isPieceSet() {
+  bool pieceIsSet = false;
+  for (std::pair<int, int> coords : piece.getLowerPoints()) {
+    if (coords.first == 23 || board[coords.first + 1][coords.second]) {
+      pieceIsSet = true;
+      break;
+    }
+  }
+
+  return pieceIsSet;
+}
+
+bool Game::isPieceValid() {
+
+  // upper bound
+  for (std::pair<int, int> coords : piece.getUpperPoints()) {
+    if (coords.first < 0 || coords.first > 23 || coords.second < 0 ||
+        coords.second > 9) {
+      // out of bounds
+      return false;
+    }
+    if (board[coords.first][coords.second]) {
+      // place does not fit
+      return false;
+    }
+  }
+
+  // lower bound
+  for (std::pair<int, int> coords : piece.getLowerPoints()) {
+    if (coords.first < 0 || coords.first > 23 || coords.second < 0 ||
+        coords.second > 9) {
+      // out of bounds
+      return false;
+    }
+    if (board[coords.first][coords.second]) {
+      // place does not fit
+      return false;
+    }
+  }
+
+  // right most points
+  for (std::pair<int, int> coords : piece.getRightmostPoints()) {
+    if (coords.first < 0 || coords.first > 23 || coords.second < 0 ||
+        coords.second > 9) {
+      // out of bounds
+      return false;
+    }
+    if (board[coords.first][coords.second]) {
+      // place does not fit
+      return false;
+    }
+  }
+
+  // leftmost points
+  for (std::pair<int, int> coords : piece.getLeftmostPoints()) {
+    if (coords.first < 0 || coords.first > 23 || coords.second < 0 ||
+        coords.second > 9) {
+      // out of bounds
+      return false;
+    }
+    if (board[coords.first][coords.second]) {
+      // place does not fit
+      return false;
+    }
+  }
+
+  // the piece does fit and is not out of bounds
+  return true;
+}
+
+void Game::movePiece(char c) {
+
+  // offset the piece first
+  piece.offset(c);
+
+  // if the move is not valid: revert
+  if (!isPieceValid()) {
+    switch (c) {
+    case 'd':
+      piece.offset('u');
+      break;
+
+    case 'l':
+      piece.offset('r');
+      break;
+
+    case 'r':
+      piece.offset('l');
+      break;
+    }
+  }
+}
+
+void Game::rotatePiece(int r) {
+
+  // following the same logic as in movePiece: rotate the piece first
+  piece.rotate(r);
+
+  // if the move is not valid, revert
+  if (!isPieceValid()) {
+    piece.rotate(4 - r);
+  }
+}
+
+void Game::pieceCycle(char c, int r) {
+
+  // regroups the movements of pieces and the logic of the game.
+  // first off, nothing is done before checking whether the completed lines were
+  // cleaned
+  clearCompleteLines();
+
+  // move then rotate
+  movePiece(c);
+  rotatePiece(r);
+
+  // check if the piece is set
+  if (isPieceSet()) {
+    for (std::pair<int, int> coords : piece.getCases()) {
+      board[coords.first][coords.second] = true;
+    }
+
+    Piece p;
+    piece = p;
+
+    // check whether moving is possible
+    for (std::pair<int, int> coords : piece.getCases()) {
+      if (board[coords.first][coords.second]) {
+        gameOver = true;
+        break;
+      }
+    }
+  }
+}

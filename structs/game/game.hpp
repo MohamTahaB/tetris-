@@ -7,9 +7,16 @@ public:
   Game();
   ~Game();
 
-  bool inspectState();
-  void movePiece(char c);
+  bool isPieceSet();
+
+  void pieceCycle(char, int);
+  bool isPieceValid();
+  void movePiece(char);
+  void rotatePiece(int);
+
   void setPiece(PieceGrid);
+  void resetBoard();
+  void clearCompleteLines();
 
 private:
   std::array<std::array<bool, 10>, 24> board;
