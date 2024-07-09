@@ -28,7 +28,7 @@ enable_testing()
 # Build the test executable and link against the main library and gtest
 file(GLOB_RECURSE TESTS tests/*.cpp)
 add_executable(tetris_test ${TESTS})
-include_directories(structs/piece structs/piece_grid)
+include_directories(structs/piece structs/piece_grid structs/game)
 target_link_libraries(tetris_test gtest_main ${PROJECT_NAME})
 
 

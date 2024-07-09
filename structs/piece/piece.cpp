@@ -43,7 +43,7 @@ Piece::Piece()
   PieceGrid pg(choices[rand() % choices.size()]);
 
   pieceGrid = pg;
-  position.first = getLowerPoints()[0].first - 1;
+  position.first = -getUpperPoints()[0].first;
   position.second = 3;
 }
 
