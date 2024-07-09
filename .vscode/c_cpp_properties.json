@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/structs/piece",
-                "${workspaceFolder}/structs/piece_grid"
+                "${workspaceFolder}/structs/piece_grid",
+                "/usr/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

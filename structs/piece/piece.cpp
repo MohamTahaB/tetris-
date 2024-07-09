@@ -1,6 +1,7 @@
 #include "piece.hpp"
 #include <array>
 #include <map>
+#include <stdlib.h>
 #include <vector>
 
 Piece::Piece()
@@ -8,7 +9,43 @@ Piece::Piece()
       pieceGrid(std::array<std::array<bool, 3>, 3>{
           std::array<bool, 3>{false, false, false},
           std::array<bool, 3>{false, false, false},
-          std::array<bool, 3>{false, false, false}}) {}
+          std::array<bool, 3>{false, false, false}}) {
+  std::vector<std::array<std::array<bool, 3>, 3>> choices = {
+      std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{false, true, false},
+          std::array<bool, 3>{false, true, false},
+          std::array<bool, 3>{false, true, false}},
+      std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{false, true, false},
+          std::array<bool, 3>{false, true, false},
+          std::array<bool, 3>{true, true, false}},
+      std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{false, true, false},
+          std::array<bool, 3>{false, true, false},
+          std::array<bool, 3>{false, true, true}},
+      std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{false, false, false},
+          std::array<bool, 3>{false, true, true},
+          std::array<bool, 3>{false, true, true}},
+      std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{false, true, true},
+          std::array<bool, 3>{true, true, false},
+          std::array<bool, 3>{false, false, false}},
+      std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{true, true, true},
+          std::array<bool, 3>{false, true, false},
+          std::array<bool, 3>{false, false, false}},
+      std::array<std::array<bool, 3>, 3>{
+          std::array<bool, 3>{true, true, false},
+          std::array<bool, 3>{false, true, true},
+          std::array<bool, 3>{false, false, false}}};
+
+  PieceGrid pg(choices[rand() % choices.size()]);
+
+  pieceGrid = pg;
+  position.first = getLowerPoints()[0].first - 1;
+  position.second = 3;
+}
 
 Piece::~Piece() {}
 
