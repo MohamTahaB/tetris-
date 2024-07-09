@@ -1,8 +1,8 @@
 #include "game.hpp"
 
 Game::Game()
-    : piece(Piece()), isPieceSet(false),
-      board(std::array<std::array<bool, 10>, 24>{}) {}
+    : piece(Piece()), board(std::array<std::array<bool, 10>, 24>{}),
+      gameOver(false) {}
 
 Game::~Game() { piece.~Piece(); }
 

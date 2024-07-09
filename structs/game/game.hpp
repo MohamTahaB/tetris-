@@ -14,5 +14,5 @@ public:
 private:
   std::array<std::array<bool, 10>, 24> board;
   Piece piece;
-  bool isPieceSet;
+  bool gameOver;
 };
