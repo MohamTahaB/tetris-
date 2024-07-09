@@ -16,6 +16,10 @@ file(GLOB_RECURSE piece_grid_sources structs/piece_grid/*.cpp)
 # Build the project and the library
 add_library(${PROJECT_NAME} ${game_headers} ${game_sources} ${piece_headers} ${piece_sources} ${piece_grid_headers} ${piece_grid_sources})
 
+#main executable
+add_executable(main main.cpp)
+target_link_libraries(main ${PROJECT_NAME})
+
 # gtest
 
 add_subdirectory(external/googletest)

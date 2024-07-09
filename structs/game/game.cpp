@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <iostream>
 
 Game::Game()
     : piece(Piece()), board(std::array<std::array<bool, 10>, 24>{}),
@@ -191,3 +192,35 @@ std::array<std::array<bool, 10>, 24> Game::getBoard() { return board; }
 Piece Game::getPiece() { return piece; }
 
 bool Game::isGameOver() { return gameOver; }
+
+void Game::debug() {
+  char c;
+  int r;
+  std::array<std::array<char, 10>, 24> charBoard;
+
+  while (std::cin >> c >> r && !isGameOver()) {
+    for (int i = 0; i < 24; i++) {
+      for (int j = 0; j < 10; j++) {
+        charBoard[i][j] = 'O';
+      }
+    }
+
+    pieceCycle(c, r);
+    for (int i = 0; i < 24; i++) {
+      for (int j = 0; j < 10; j++) {
+        charBoard[i][j] = (getBoard()[i][j] ? '@' : 'O');
+      }
+    }
+
+    for (std::pair<int, int> coords : piece.getCases()) {
+      charBoard[coords.first][coords.second] = '@';
+    }
+
+    for (int i = 0; i < 24; i++) {
+      for (int j = 0; j < 10; j++) {
+        std::cout << charBoard[i][j];
+      }
+      std::cout << std::endl;
+    }
+  }
+}

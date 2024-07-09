@@ -22,6 +22,8 @@ public:
   Piece getPiece();
   bool isGameOver();
 
+  void debug();
+
 private:
   std::array<std::array<bool, 10>, 24> board;
   Piece piece;
