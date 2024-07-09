@@ -185,3 +185,9 @@ void Game::pieceCycle(char c, int r) {
     }
   }
 }
+
+std::array<std::array<bool, 10>, 24> Game::getBoard() { return board; }
+
+Piece Game::getPiece() { return piece; }
+
+bool Game::isGameOver() { return gameOver; }

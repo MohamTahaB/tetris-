@@ -18,6 +18,10 @@ public:
   void resetBoard();
   void clearCompleteLines();
 
+  std::array<std::array<bool, 10>, 24> getBoard();
+  Piece getPiece();
+  bool isGameOver();
+
 private:
   std::array<std::array<bool, 10>, 24> board;
   Piece piece;
