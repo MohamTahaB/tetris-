@@ -2,5 +2,5 @@
 
 int main() {
   Game g;
-  g.debug();
+  g.launch();
 }

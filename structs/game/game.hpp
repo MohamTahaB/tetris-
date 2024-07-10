@@ -23,6 +23,7 @@ public:
   bool isGameOver();
 
   void debug();
+  void launch();
 
 private:
   std::array<std::array<bool, 10>, 24> board;

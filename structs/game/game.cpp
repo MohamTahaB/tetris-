@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
 Game::Game()
@@ -223,4 +224,83 @@ void Game::debug() {
       std::cout << std::endl;
     }
   }
+}
+
+void Game::launch() {
+  const int pixelSize = 10, screenWidth = 10, screenHeight = 24;
+
+  sf::RenderWindow window(
+      sf::VideoMode(screenHeight * pixelSize, screenWidth * pixelSize),
+      "Ctris");
+
+  window.setFramerateLimit(60);
+
+  sf::RectangleShape pixels[screenHeight][screenWidth];
+
+  for (int x = 0; x < screenHeight; x++) {
+    for (int y = 0; y < screenWidth; y++) {
+      pixels[x][y].setSize(sf::Vector2f(pixelSize, pixelSize));
+      pixels[x][y].setPosition(x * pixelSize, y * pixelSize);
+    }
+  }
+
+  char c = 'z';
+  int r = 0;
+
+  while (window.isOpen() && !isGameOver()) {
+    c = 'z';
+    r = 0;
+
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) {
+        window.close();
+      }
+
+      // detect key presses
+      if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Down) {
+          c = 'd';
+        }
+        if (event.key.code == sf::Keyboard::Right) {
+          c = 'r';
+        }
+        if (event.key.code == sf::Keyboard::Left) {
+          c = 'l';
+        }
+        if (event.key.code == sf::Keyboard::Space) {
+          r = 1;
+        }
+      }
+    }
+
+    pieceCycle(c, r);
+
+    window.clear();
+
+    // clear the pixels, and mark the game board
+    for (int x = 0; x < screenHeight; x++) {
+      for (int y = 0; y < screenWidth; y++) {
+        pixels[x][y].setFillColor((board[x][y]) ? sf::Color::White
+                                                : sf::Color::Black);
+      }
+    }
+
+    // mark the game occupied pixels and the piece pixels
+    for (std::pair<int, int> coords : piece.getCases()) {
+      pixels[coords.first][coords.second].setFillColor(sf::Color::White);
+    }
+
+    // draw pixels
+    for (int x = 0; x < screenHeight; x++) {
+      for (int y = 0; y < screenWidth; y++) {
+        window.draw(pixels[x][y]);
+      }
+    }
+
+    // display content of the window
+    window.display();
+  }
+
+  return;
 }
