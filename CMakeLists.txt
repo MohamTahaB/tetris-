@@ -4,6 +4,18 @@ project(tetris++)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Find the SFML package
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
+# Check if SFML was found
+if(SFML_FOUND)
+    message(STATUS "SFML found: ${SFML_DIR}")
+    message(STATUS "SFML include directories: ${SFML_INCLUDE_DIRS}")
+    message(STATUS "SFML libraries: ${SFML_LIBRARIES}")
+else()
+    message(FATAL_ERROR "SFML not found")
+endif()
+
 file(GLOB_RECURSE game_headers structs/game/*.hpp)
 file(GLOB_RECURSE game_sources structs/game/*.cpp)
 
@@ -15,6 +27,12 @@ file(GLOB_RECURSE piece_grid_sources structs/piece_grid/*.cpp)
 
 # Build the project and the library
 add_library(${PROJECT_NAME} ${game_headers} ${game_sources} ${piece_headers} ${piece_sources} ${piece_grid_headers} ${piece_grid_sources})
+
+# Link the SFML libraries
+target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
+
+# Include SFML directories
+target_include_directories(${PROJECT_NAME} PRIVATE ${SFML_INCLUDE_DIRS})
 
 #main executable
 add_executable(main main.cpp)
