@@ -11,7 +11,6 @@ First off, you need to install [SFML](https://www.sfml-dev.org/download.php), th
 mkdir build && cd build
 cmake ../
 cmake --build .
-
 ```
 
 To run tests, you need to build, then, from the `build` directory, run the tests executable, or `ctest`.
