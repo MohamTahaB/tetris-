@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <set>
 
 Game::Game()
     : piece(Piece()), board(std::array<std::array<bool, 10>, 24>{}),
@@ -55,15 +56,28 @@ void Game::clearCompleteLines() {
 }
 
 bool Game::isPieceSet() {
-  bool pieceIsSet = false;
+
+  // check whether lower points are set.
   for (std::pair<int, int> coords : piece.getLowerPoints()) {
     if (coords.first == 23 || board[coords.first + 1][coords.second]) {
-      pieceIsSet = true;
-      break;
+      return true;
     }
   }
 
-  return pieceIsSet;
+  // check whether the piece is hanging from a non lower point pixel
+  std::set<std::pair<int, int>> coordsSet;
+  for (std::pair<int, int> coords : piece.getCases()) {
+    coordsSet.insert(coords);
+  }
+
+  for (std::pair<int, int> coords : piece.getCases()) {
+    if (board[coords.first + 1][coords.second] &&
+        coordsSet.find({coords.first + 1, coords.second}) == coordsSet.end()) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 bool Game::isPieceValid() {
@@ -227,7 +241,7 @@ void Game::debug() {
 }
 
 void Game::launch() {
-  const int pixelSize = 50, screenWidth = 10, screenHeight = 24;
+  const int pixelSize = 20, screenWidth = 10, screenHeight = 24;
 
   sf::RenderWindow window(
       sf::VideoMode(screenWidth * pixelSize, screenHeight * pixelSize),
