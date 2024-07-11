@@ -227,10 +227,10 @@ void Game::debug() {
 }
 
 void Game::launch() {
-  const int pixelSize = 10, screenWidth = 10, screenHeight = 24;
+  const int pixelSize = 50, screenWidth = 10, screenHeight = 24;
 
   sf::RenderWindow window(
-      sf::VideoMode(screenHeight * pixelSize, screenWidth * pixelSize),
+      sf::VideoMode(screenWidth * pixelSize, screenHeight * pixelSize),
       "Ctris");
 
   window.setFramerateLimit(60);
@@ -240,7 +240,7 @@ void Game::launch() {
   for (int x = 0; x < screenHeight; x++) {
     for (int y = 0; y < screenWidth; y++) {
       pixels[x][y].setSize(sf::Vector2f(pixelSize, pixelSize));
-      pixels[x][y].setPosition(x * pixelSize, y * pixelSize);
+      pixels[x][y].setPosition(y * pixelSize, x * pixelSize);
     }
   }
 
