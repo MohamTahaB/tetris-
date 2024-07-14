@@ -26,6 +26,7 @@ public:
   void launch();
 
 private:
+  int score;
   std::array<std::array<bool, 10>, 24> board;
   Piece piece;
   bool gameOver;

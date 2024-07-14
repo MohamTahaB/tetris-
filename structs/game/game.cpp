@@ -5,7 +5,7 @@
 
 Game::Game()
     : piece(Piece()), board(std::array<std::array<bool, 10>, 24>{}),
-      gameOver(false) {}
+      gameOver(false), score(0) {}
 
 Game::~Game() { piece.~Piece(); }
 
@@ -50,6 +50,7 @@ void Game::clearCompleteLines() {
       for (int j = 0; j < 10; j++) {
         board[i][j] = false;
       }
+      score += 10;
       offset++;
     }
   }
@@ -60,6 +61,7 @@ bool Game::isPieceSet() {
   // check whether lower points are set.
   for (std::pair<int, int> coords : piece.getLowerPoints()) {
     if (coords.first == 23 || board[coords.first + 1][coords.second]) {
+      score++;
       return true;
     }
   }
