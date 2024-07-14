@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ctris)
+project(tetris++)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -35,8 +35,8 @@ target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
 target_include_directories(${PROJECT_NAME} PRIVATE ${SFML_INCLUDE_DIRS})
 
 #main executable
-add_executable(main main.cpp)
-target_link_libraries(main ${PROJECT_NAME})
+add_executable(ctris main.cpp)
+target_link_libraries(ctris ${PROJECT_NAME})
 
 # gtest
 
